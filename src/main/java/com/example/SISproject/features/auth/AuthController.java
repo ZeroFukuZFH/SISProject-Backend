@@ -37,16 +37,10 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse("Registered Successfully!"));
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<MeResponse> me(@AuthenticationPrincipal UserDetails userDetails){
-        MeResponse meResponse = authService.me(userDetails.getUsername());
-        return ResponseEntity.ok(meResponse);
-    }
-
     private void createNewCookie(HttpServletResponse response,String token){
         Cookie jwtCookie = new Cookie("jwt",token);
         jwtCookie.setHttpOnly(true);   // Protects against XSS
-        jwtCookie.setSecure(false);    // Set to true in production (HTTPS)
+        jwtCookie.setSecure(true);    // Set to true in production (HTTPS)
         jwtCookie.setPath("/");        // Accessible globally across your API routes
         jwtCookie.setMaxAge(3600/4);
         jwtCookie.setAttribute("SameSite", "Strict");

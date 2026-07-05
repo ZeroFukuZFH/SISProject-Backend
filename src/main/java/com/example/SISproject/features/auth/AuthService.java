@@ -39,17 +39,6 @@ public class AuthService {
             return null;
         }
     }
-
-    public MeResponse me(String email){
-        UserModel user = userRepository.findUserByEmail(email);
-        if (user == null) return null;
-        return new MeResponse(
-                user.getName(),
-                user.getEmail(),
-                user.getActivityStatus()
-        );
-    }
-
     public String register(String username, String email, String password) {
         if (userRepository.findUserByEmail(email) != null) {
             return null;
