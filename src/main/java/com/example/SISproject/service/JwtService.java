@@ -20,7 +20,8 @@ import java.util.function.Function;
 public class JwtService {
     @Value("${jwt.secret.key}")
     public String SECRET_KEY;
-    public Date expiration = new Date(System.currentTimeMillis() + Duration.ofMinutes(15).toMillis());
+
+    private static final long JWT_EXPIRATION_MS = Duration.ofHours(3).toMillis();
 
     public String generateToken(String email){
         Map<String, Object> claims = new HashMap<>();
@@ -46,6 +47,7 @@ public class JwtService {
     }
 
     private String createToken(Map<String,Object> claims, String email){
+        Date expiration = new Date(System.currentTimeMillis() + JWT_EXPIRATION_MS);
         return Jwts.builder()
                 .claims(claims)
                 .subject(email)

@@ -2,15 +2,14 @@ package com.example.SISproject.features.auth;
 
 import com.example.SISproject.features.auth.dto.AuthResponse;
 import com.example.SISproject.features.auth.dto.LoginRequest;
-import com.example.SISproject.features.auth.dto.MeResponse;
 import com.example.SISproject.features.auth.dto.RegisterRequest;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,7 +41,7 @@ public class AuthController {
         jwtCookie.setHttpOnly(true);   // Protects against XSS
         jwtCookie.setSecure(true);    // Set to true in production (HTTPS)
         jwtCookie.setPath("/");        // Accessible globally across your API routes
-        jwtCookie.setMaxAge(3600/4);
+        jwtCookie.setMaxAge(Duration.ofHours(3).toMillisPart());
         jwtCookie.setAttribute("SameSite", "Strict");
         response.addCookie(jwtCookie);
     }
